@@ -89,16 +89,84 @@ void insert(struct Array *arr, int index, int item)
     }
 }
 
+int delete(struct Array *arr, int index)
+{
+    int element = arr->A[index];
+    if (index >= 0 && index <= arr->length)
+    {
+        for (int i = index; i < arr->length; i++)
+        {
+            arr->A[i] = arr->A[i + 1];
+        }
+
+        arr->length--;
+    }
+
+    return element;
+}
+
+int swap(int *i, int *j)
+{
+    int perm = *i;
+    *i = *j;
+    *j = perm;
+}
+
+int linearSearch(struct Array *arr, int elem)
+{
+    int index;
+    for (index = 0; index < arr->length; index++)
+    {
+        if (arr->A[index] == elem)
+        {
+            swap(&arr->A[index], &arr->A[index - 1]);
+            return index - 1;
+        }
+    }
+
+    return -1;
+}
+
+int binarySearch(struct Array *arr, int elem)
+{
+    int head = 0;
+    int tail = arr->length - 1;
+    int middleIndex;
+
+    while (head <= tail)
+    {
+        middleIndex = (head + tail) / 2;
+        if (arr->A[middleIndex] == elem)
+        {
+            return middleIndex;
+        }
+        if (elem > arr->A[middleIndex])
+        {
+            head = middleIndex + 1;
+        }
+        else
+        {
+            tail = middleIndex - 1;
+        }
+    }
+
+    return -1;
+}
+
 int main()
 {
     struct Array arr = {{1, 2, 3, 5}, 20, 4};
-    printf("Before insert\n");
-    Dispaly(arr);
+    // printf("Before insert\n");
+    // Dispaly(arr);
     insert(&arr, 3, 4);
     append(&arr, 6);
     append(&arr, 7);
     append(&arr, 8);
     append(&arr, 9);
-    printf("After insert\n");
-    Dispaly(arr);
+    append(&arr, 10);
+    // printf("12 found at %d\n", linearSearch(&arr, 10));
+    printf("2 found at %d\n", binarySearch(&arr, 5));
+    // printf("%d was deleted\n", delete(&arr, 2));
+    // printf("After insert\n");
+    // Dispaly(arr);
 }
