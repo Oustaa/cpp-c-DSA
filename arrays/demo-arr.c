@@ -45,6 +45,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 struct Array
 {
@@ -153,20 +154,153 @@ int binarySearch(struct Array *arr, int elem)
     return -1;
 }
 
+int get(struct Array arr, int index)
+{
+    if (index >= 0 && index <= arr.length)
+    {
+        return arr.A[index];
+    }
+
+    return 0;
+}
+
+void set(struct Array arr, int index, int elem)
+{
+    if (index >= 0 && index <= arr.length)
+    {
+        arr.A[index] = elem;
+    }
+}
+
+int max(struct Array arr)
+{
+    int max = arr.A[0];
+
+    for (int i = 1; i < arr.length; i++)
+    {
+        if (arr.A[i] > max)
+        {
+            max = arr.A[i];
+        }
+    }
+
+    return max;
+}
+
+int min(struct Array arr)
+{
+    int min = arr.A[0];
+
+    for (int i = 1; i < arr.length; i++)
+    {
+        if (arr.A[i] < min)
+        {
+            min = arr.A[i];
+        }
+    }
+
+    return min;
+}
+
+int totalArray(struct Array arr)
+{
+    int sum = 0;
+
+    for (int i = 0; i < arr.length; i++)
+    {
+        sum += arr.A[i];
+    }
+}
+
+int totalArrayRec(struct Array arr, int index)
+{
+    if (index < 0)
+    {
+        return 0;
+    }
+
+    return totalArrayRec(arr, index - 1) + arr.A[index];
+}
+
+float avg(struct Array arr)
+{
+    return totalArray(arr) / arr.length;
+}
+
+void revers(struct Array *arr)
+{
+    for (int i = arr->length - 1, j = 0; i > j; i--, j++)
+    {
+        swap(&arr->A[i], &arr->A[j]);
+    }
+}
+
+void rotateArr(struct Array *arr, int rotateBy)
+{
+    for (int i = 0; i < rotateBy; i++)
+    {
+        swap(&arr->A[i], &arr->A[arr->length - rotateBy + i]);
+    }
+}
+
+bool isSorted(struct Array arr)
+{
+    for (int i = 0; i < arr.length - 1; i++)
+    {
+        if (arr.A[i] > arr.A[i + 1])
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void arrangePN(struct Array *arr)
+{
+    int i = 0, j = arr->length - 1;
+
+    while (i < j)
+    {
+        while (arr->A[i] < 0)
+        {
+            i++;
+        }
+        while (arr->A[j] >= 0)
+        {
+            j--;
+        }
+        if (i < j)
+        {
+            swap(&arr->A[i], &arr->A[j]);
+        }
+    }
+}
+
 int main()
 {
-    struct Array arr = {{1, 2, 3, 5}, 20, 4};
-    // printf("Before insert\n");
-    // Dispaly(arr);
-    insert(&arr, 3, 4);
-    append(&arr, 6);
-    append(&arr, 7);
-    append(&arr, 8);
-    append(&arr, 9);
-    append(&arr, 10);
-    // printf("12 found at %d\n", linearSearch(&arr, 10));
-    printf("2 found at %d\n", binarySearch(&arr, 5));
-    // printf("%d was deleted\n", delete(&arr, 2));
-    // printf("After insert\n");
-    // Dispaly(arr);
+    // struct Array arr = {{1, 2, 3, 5}, 20, 4};
+    // // printf("Before insert\n");
+    // // Dispaly(arr);
+    // insert(&arr, 3, 4);
+    // append(&arr, 6);
+    // // append(&arr, 7);
+    // // append(&arr, 8);
+    // // append(&arr, 9);
+    // // append(&arr, 10);
+    // // printf("12 found at %d\n", linearSearch(&arr, 10));
+    // // printf("2 found at %d\n", binarySearch(&arr, 5));
+    // // printf("arr sum = %d\n", totalArrayRec(arr, arr.length - 1));
+    // // printf("%d was deleted\n", delete(&arr, 2));
+    // // printf("After insert\n");
+    // // Dispaly(arr);
+    // // revers(&arr);
+    // // rotateArr(&arr, 5);
+    // // Dispaly(arr);
+    // printf("%B\n", isSorted(arr));
+
+    struct Array arr = {{-1, 2, 3, -6, 45, -67, 4, -54, 6, -46}, 10, 10};
+
+    arrangePN(&arr);
+    Dispaly(arr);
 }
