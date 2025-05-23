@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -23,6 +24,46 @@ public:
     }
 };
 
+int maxArea(vector<int> height)
+{
+    int start = 0, end = height.size() - 1;
+    int area = 0;
+
+    while (start < end)
+    {
+        for (int i = start; i < end; i++)
+        {
+            int a;
+            if (height[i] < height[end])
+            {
+                a = height[i] * (end - i);
+            }
+            else
+            {
+                a = height[end] * (end - i);
+            }
+            if (a > area)
+            {
+                area = a;
+            }
+        }
+        if (height[start] > height[end])
+        {
+            end--;
+        }
+        else
+        {
+            start++;
+        }
+    }
+
+    return area;
+}
+
+// {1, 8, 6, 2, 5, 4, 8, 3, 7}
+// start; end; i;
+// 0    ; 8;
+
 int main()
 {
     int B[2][2];
@@ -38,5 +79,25 @@ int main()
 
     Person me{"Oussama Tailba", 27};
 
-    me.display();
+    vector<int> l = {1, 8, 6, 2, 5, 4, 8, 3, 7};
+    int maxA = maxArea(l);
+    cout << "max area is " << maxA << endl;
+
+    l = {1, 1};
+    maxA = maxArea(l);
+    cout << "max area is " << maxA << endl;
+
+    l = {1, 2, 1, 1, 1, 1, 1, 3};
+    maxA = maxArea(l);
+    cout << "max area is " << maxA << endl;
+
+    l = {0, 2};
+    maxA = maxArea(l);
+    cout << "max area is " << maxA << endl;
+
+    l = {8, 7, 2, 1};
+    maxA = maxArea(l);
+    cout << "max area is " << maxA << endl;
+
+    // me.display();
 }

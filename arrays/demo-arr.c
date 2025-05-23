@@ -277,6 +277,41 @@ void arrangePN(struct Array *arr)
     }
 }
 
+struct Array unionArr(struct Array arr1, struct Array arr2)
+{
+
+    struct Array arr3 = arr1;
+    //  {
+    //     arr1.A,
+    //     arr1.size + arr2.size,
+    //     arr1.length + arr2.length,
+    // };
+    arr3.size += arr2.size;
+
+    int k = arr2.length;
+
+    for (int i = 0; i < arr2.length; i++)
+    {
+        printf("%d found att => %d\n", arr2.A[i], linearSearch(&arr3, arr2.A[i]));
+        if (linearSearch(&arr1, arr2.A[i]) == -1)
+        {
+            arr3.A[k] = arr2.A[i];
+            arr3.length++;
+            k++;
+        }
+    }
+
+    return arr3;
+}
+
+//    int i = 0, j = 0, k = 0, length = 0;
+// while (i < arr1.length && j > arr2.length)
+// {
+// }
+
+// arr1.size > arr2.size ? arr1.size : arr2.size,
+// arr1.length > arr2.length ? arr1.length : arr2.length,
+
 int main()
 {
     // struct Array arr = {{1, 2, 3, 5}, 20, 4};
@@ -299,8 +334,11 @@ int main()
     // // Dispaly(arr);
     // printf("%B\n", isSorted(arr));
 
-    struct Array arr = {{-1, 2, 3, -6, 45, -67, 4, -54, 6, -46}, 10, 10};
+    struct Array arr1 = {{-1, 2, 3, -6, 45, -67, 4, -54, 6, -46}, 10, 10};
+    struct Array arr2 = {{122, 2, 3123, -6, 45, -67, 4, -54, 6, -46}, 10, 10};
 
-    arrangePN(&arr);
-    Dispaly(arr);
+    struct Array arr3 = unionArr(arr1, arr2);
+
+    // arrangePN(&arr);
+    Dispaly(arr3);
 }
