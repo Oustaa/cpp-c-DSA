@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <map>
 
 using namespace std;
 
@@ -31,38 +32,45 @@ int maxArea(vector<int> height)
 
     while (start < end)
     {
-        for (int i = start; i < end; i++)
+
+        int a;
+        if (height[start] < height[end])
         {
-            int a;
-            if (height[i] < height[end])
-            {
-                a = height[i] * (end - i);
-            }
-            else
-            {
-                a = height[end] * (end - i);
-            }
-            if (a > area)
-            {
-                area = a;
-            }
-        }
-        if (height[start] > height[end])
-        {
-            end--;
+            a = height[start] * (end - start);
+            start++;
         }
         else
         {
-            start++;
+            a = height[end] * (end - start);
+            end--;
+        }
+        if (a > area)
+        {
+            area = a;
         }
     }
 
     return area;
 }
 
-// {1, 8, 6, 2, 5, 4, 8, 3, 7}
-// start; end; i;
-// 0    ; 8;
+// vector<int>
+void duplicatSortArr(vector<int> nums)
+{
+    map<int, int> seen{};
+
+    for (int num : nums)
+    {
+        if (seen.count(num))
+        {
+            cout << num << " is duplicated" << endl;
+            seen[num]++;
+        }
+        else
+        {
+            seen[num] = 1;
+        }
+    }
+}
 
 int main()
 {
@@ -73,31 +81,37 @@ int main()
     A[1] = new int[4];
     A[2] = new int[4];
 
-    printf("%p\n", &A[0][0]);
-    printf("%p\n", &A[1][0]);
-    printf("%ld\n", sizeof(int));
+    // printf("%p\n", &A[0][0]);
+    // printf("%p\n", &A[1][0]);
+    // printf("%ld\n", sizeof(int));
 
-    Person me{"Oussama Tailba", 27};
+    // Person me{"Oussama Tailba", 27};
 
-    vector<int> l = {1, 8, 6, 2, 5, 4, 8, 3, 7};
-    int maxA = maxArea(l);
-    cout << "max area is " << maxA << endl;
+    // vector<int> l = {1, 8, 6, 2, 5, 4, 8, 3, 7};
+    // int maxA = maxArea(l);
+    // cout << "max area is " << maxA << endl;
 
-    l = {1, 1};
-    maxA = maxArea(l);
-    cout << "max area is " << maxA << endl;
+    // l = {1, 1};
+    // maxA = maxArea(l);
+    // cout << "max area is " << maxA << endl;
 
-    l = {1, 2, 1, 1, 1, 1, 1, 3};
-    maxA = maxArea(l);
-    cout << "max area is " << maxA << endl;
+    // l = {1, 2, 1, 1, 1, 1, 1, 3};
+    // maxA = maxArea(l);
+    // cout << "max area is " << maxA << endl;
 
-    l = {0, 2};
-    maxA = maxArea(l);
-    cout << "max area is " << maxA << endl;
+    // l = {0, 2};
+    // maxA = maxArea(l);
+    // cout << "max area is " << maxA << endl;
 
-    l = {8, 7, 2, 1};
-    maxA = maxArea(l);
-    cout << "max area is " << maxA << endl;
+    // l = {8, 7, 2, 1};
+    // maxA = maxArea(l);
+    // cout << "max area is " << maxA << endl;
+
+    // l = {1, 8, 100, 2, 100, 4, 8, 3, 7};
+    // maxA = maxArea(l);
+    // cout << "max area is " << maxA << endl;
+
+    duplicatSortArr(vector<int>{1, 2, 8, 8, 8, 8, 8, 8, 3, 4, 5, 7, 8, 9});
 
     // me.display();
 }
