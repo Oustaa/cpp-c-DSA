@@ -42,6 +42,32 @@ bool is_palindrome(const char *str)
     return true;
 }
 
+void perm(char s[], int k)
+{
+    static int A[10] = {0};
+    static char res[10];
+    int i;
+
+    if (s[k] == '\0')
+    {
+        res[k] = '\0';
+        printf("%s\n", res);
+    }
+    else
+    {
+        for (i = 0; s[i] != '\0'; i++)
+        {
+            if (A[i] == 0)
+            {
+                res[k] = s[i];
+                A[i] = 1;
+                perm(s, k + 1);
+                A[i] = 0;
+            }
+        }
+    }
+}
+
 int main()
 {
     // char temp = 'A';
@@ -84,7 +110,27 @@ int main()
 
     // printf("After revering: %s\n", str);
 
-    char str[] = "OUAaUO";
+    // char str[] = "OUAaUO";
 
-    printf("%d\n", is_palindrome(str));
+    // printf("%d\n", is_palindrome(str));
+
+    // char A[] = "Findiiniing";
+
+    // int h = 0, x = 0;
+    // for (int i = 0; A[i] != '\0'; i++)
+    // {
+    //     x = 1;
+    //     x = x << (A[i] - 'A');
+
+    //     if ((x & h) > 0)
+    //     {
+    //         printf("The character %c is duplicated\n", A[i]);
+    //     }
+    //     else
+    //     {
+    //         h |= x;
+    //     }
+    // }
+
+    perm("ABC", 0);
 }
