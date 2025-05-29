@@ -44,12 +44,14 @@ bool is_palindrome(const char *str)
 
 void perm(char s[], int k)
 {
+    static int permsNums = 0;
     static int A[10] = {0};
     static char res[10];
     int i;
 
     if (s[k] == '\0')
     {
+        permsNums++;
         res[k] = '\0';
         printf("%s\n", res);
     }
@@ -66,6 +68,8 @@ void perm(char s[], int k)
             }
         }
     }
+
+    printf("perms number is %d\n", permsNums);
 }
 
 int main()
@@ -132,5 +136,5 @@ int main()
     //     }
     // }
 
-    perm("ABC", 0);
+    perm("Oussama Tailba", 0);
 }

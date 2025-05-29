@@ -72,6 +72,23 @@ void duplicatSortArr(vector<int> nums)
     }
 }
 
+bool findPairToSUm(vector<int> nums, int k)
+{
+    map<int, int> cach = {};
+
+    for (int num : nums)
+    {
+        if (cach[k - num])
+        {
+            return true;
+        }
+
+        cach[num] = k - num;
+    }
+
+    return false;
+}
+
 int main()
 {
     int B[2][2];
@@ -114,4 +131,6 @@ int main()
     duplicatSortArr(vector<int>{1, 2, 8, 8, 8, 8, 8, 8, 3, 4, 5, 7, 8, 9});
 
     // me.display();
+
+    cout << "pair is found/notfoud << " << findPairToSUm(vector<int>{-21, -12, 40, 31, 7, 8, 9, 6}, 10) << endl;
 }
