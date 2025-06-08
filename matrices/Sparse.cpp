@@ -52,25 +52,28 @@ public:
         delete[] this->elements;
     }
 
-    void display()
-    {
-        int k = 0;
-
-        for (int i = 0; i < this->x; i++)
-        {
-            for (int j = 0; j < this->y; j++)
-            {
-                if (i == this->elements[k].x && j == this->elements[k].y)
-                    std::cout << this->elements[k++].element << " ";
-                else
-                    std::cout << "0 ";
-            }
-            std::cout << std::endl;
-        }
-    }
-
+    friend std::ostream &operator<<(std::ostream &os, Sparse &s);
     friend Sparse operator+(const Sparse &first, const Sparse &second);
 };
+
+std::ostream &operator<<(std::ostream &os, Sparse &s)
+{
+    int k = 0;
+
+    for (int i = 0; i < s.x; i++)
+    {
+        for (int j = 0; j < s.y; j++)
+        {
+            if (i == s.elements[k].x && j == s.elements[k].y)
+                std::cout << s.elements[k++].element << " ";
+            else
+                std::cout << "0 ";
+        }
+        std::cout << std::endl;
+    }
+
+    return os;
+}
 
 Sparse operator+(const Sparse &first, const Sparse &second)
 {
@@ -79,46 +82,46 @@ Sparse operator+(const Sparse &first, const Sparse &second)
         std::cout << "Can't add two matrices with different dimentison" << std::endl;
         return Sparse();
     }
-    Sparse sumSparse(first.x, first.y, first.n + second.n);
+    Sparse *sumSparse = new Sparse(first.x, first.y, first.n + second.n);
 
     int i = 0, j = 0, k = 0;
 
     while (i < first.n && j < second.n)
     {
         if (first.elements[i].x < second.elements[j].x)
-            sumSparse.elements[k++] = first.elements[i++];
+            sumSparse->elements[k++] = first.elements[i++];
         else if (first.elements[i].x > second.elements[j].x)
-            sumSparse.elements[k++] = second.elements[j++];
+            sumSparse->elements[k++] = second.elements[j++];
         else
         {
             if (first.elements[i].y < second.elements[j].y)
-                sumSparse.elements[k++] = first.elements[i++];
+                sumSparse->elements[k++] = first.elements[i++];
             else if (first.elements[i].y > second.elements[j].y)
-                sumSparse.elements[k++] = second.elements[j++];
+                sumSparse->elements[k++] = second.elements[j++];
             else
             {
-                sumSparse.elements[k] = first.elements[i++];
-                sumSparse.elements[k++].element += second.elements[j++].element;
+                sumSparse->elements[k] = first.elements[i++];
+                sumSparse->elements[k++].element += second.elements[j++].element;
             }
         }
     }
 
-    printf("after first while loop: i = %d, j = %d\n", i, j);
-
     while (i < first.n)
-        sumSparse.elements[k++] = first.elements[i++];
+        sumSparse->elements[k++] = first.elements[i++];
     while (j < second.n)
-        sumSparse.elements[k++] = second.elements[j++];
+        sumSparse->elements[k++] = second.elements[j++];
 
-    return sumSparse;
+    sumSparse->n = k;
+
+    return *sumSparse;
 };
 
 int main()
 {
     Sparse spare1;
-    spare1.display();
+    std::cout << spare1;
     Sparse spare2;
-    spare2.display();
-    auto spare3 = spare1 + spare2;
-    spare3.display();
+    std::cout << spare2;
+    Sparse spare3 = spare1 + spare2;
+    std::cout << spare3;
 }
