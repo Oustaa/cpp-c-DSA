@@ -15,4 +15,6 @@ public:
   void insert() {}
 };
 
+const string sql_query = "SELECT * FROM users";
+
 int main() { cout << "Hello Linked List World" << endl; }
