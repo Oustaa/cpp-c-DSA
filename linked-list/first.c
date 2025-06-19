@@ -81,13 +81,42 @@ void insertLast(struct Node *n, int value) {
   n->next = t;
 }
 
+struct Node *reverseLinkPointer(struct Node *first) {
+  struct Node *p = first, *q = NULL, *r = NULL;
+
+  while (p != NULL) {
+    // q = p;
+    // p->next = r;
+    // r = p;
+    // p = q;
+    r = q;
+    q = p;
+    p = p->next;
+    q->next = r;
+  }
+
+  return q;
+}
+
+struct Node *reverseLinkPointerR(struct Node *q, struct Node *p) {
+  if (p) {
+    reverseLinkPointerR(p, p->next);
+    p->next = q;
+  } else {
+    return q;
+  }
+}
+
 int main() {
   struct Node *linkedList = (struct Node *)malloc(sizeof(struct Node));
 
   int value = 0;
   struct Node *prevNode = linkedList;
+  int linkedLseItemCount;
+  printf("Enter the number of items: ");
+  scanf("%d", &linkedLseItemCount);
 
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < linkedLseItemCount; i++) {
     printf("Enter value number %d", i + 1);
     scanf("%d", &value);
     struct Node *current_node = (struct Node *)malloc(sizeof(struct Node));
@@ -96,8 +125,9 @@ int main() {
     prevNode = current_node;
   }
 
-  InsertNode(linkedList, 8, 99999);
+  // InsertNode(linkedList, 8, 99999);
 
+  linkedList = reverseLinkPointerR(NULL, linkedList);
   Display(&linkedList);
 
   printf("number of items is: %d\n", nodesLenR(linkedList));
