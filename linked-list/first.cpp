@@ -1,3 +1,4 @@
+#include <ios>
 #include <iostream>
 
 using namespace std;
@@ -62,7 +63,22 @@ public:
   }
   // sort linked list
   // merger two linked lists
-  // is it has a loop
+  // does it have a loop
+  bool isItSerkilar() {
+    Node<T> *temp = head;
+    int flag = 0;
+    while (temp != NULL) {
+      if (flag == 1 && temp == head) {
+        return true;
+      } else {
+        flag = 1;
+      }
+
+      temp = temp->next;
+    }
+
+    return false;
+  }
 };
 
 class IntLinkedList : public LinkedList<int> {
@@ -81,6 +97,8 @@ public:
   }
 };
 
+template <typename T> class CircularLinkedlist : public LinkedList<T> {};
+
 int main() {
   IntLinkedList il;
   il.push(1);
@@ -90,9 +108,14 @@ int main() {
   il.insert(0, 0);
   il.insert(2, 110);
 
-  il.Display();
-  // l.Display();
-  cout << "Max is " << il.getMax() << endl;
+  il.tail->next = il.head;
+
+  cout << boolalpha;
+  cout << "The list is Circular: " << (bool)il.isItSerkilar() << endl;
+  cout << noboolalpha;
+
+  // il.Display();
+  // cout << "Max is " << il.getMax() << endl;
   // LinkedList<string> ls;
   // ls.push("Youness");
   // ls.push("Oussama");
