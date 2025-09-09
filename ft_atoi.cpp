@@ -27,5 +27,5 @@ int main()
     string strnum = "-85";
     int my_num = ft_atoi(&strnum);
 
-    cout << my_num << endl;
+    cout << my_num + 5 << endl;
 }

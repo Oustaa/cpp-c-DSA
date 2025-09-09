@@ -50,6 +50,8 @@ public:
     }
   }
 
+  // this could be smaller, if compining the insert at last with the insert in
+  // the middle
   void insert(int index, int value) {
     if (index < 0 || index > len) {
       throw std::out_of_range("Index out of range");
@@ -86,6 +88,48 @@ public:
     }
     len++;
   }
+
+  void deleteAtPosition(int index) {
+    if (index < 0 || index > len) {
+      throw std::out_of_range("Index out of range");
+    }
+
+    if (index == 0) {
+      Node *next = head->next;
+      next->prev = NULL;
+      delete head;
+      head = next;
+    }
+
+    Node *current = head;
+    for (int i = 0; i < index; i++)
+      current = current->next;
+
+    current->prev->next = current->next;
+    if (current->next)
+      current->next->prev = current->prev;
+    // if (index == len - 1)
+    //   head = current->prev;
+    delete current;
+    len--;
+  }
+
+  void reverse() {
+    Node *current = head;
+    Node *temp = nullptr;
+
+    while (current) {
+      temp = current->prev;
+      current->prev = current->next;
+      current->next = temp;
+
+      current = current->prev;
+    }
+
+    temp = head;
+    head = tail;
+    tail = temp;
+  }
 };
 
 int main() {
@@ -97,13 +141,18 @@ int main() {
   try {
     dlk.insert(1, 2);
     dlk.insert(0, 0);
-    dlk.insert(0, -1);
+    // dlk.insert(0, -1);
   } catch (const std::out_of_range &e) {
     cout << "Out of range error: " << e.what() << endl;
   } catch (...) {
     cout << "An erro Acured while inserting value" << endl;
   }
+  // dlk.deleteAtPosition(0);
+  // dlk.deleteAtPosition(4);
   cout << "Display in order" << endl;
+  dlk.display();
+  dlk.reverse();
+  cout << "Display cros order" << endl;
   dlk.display();
   cout << "Display cros order" << endl;
   dlk.display(-1);
