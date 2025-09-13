@@ -46,20 +46,20 @@ void display(struct Stack st) {
   }
 }
 
-int main() {
-  struct Stack *st;
-
-  create(st);
-
-  push(st, 1);
-  push(st, 2);
-  push(st, 3);
-  push(st, 4);
-  push(st, 5);
-
-  printf("deleted value: %d\n", pop(st));
-
-  display(*st);
-
-  return 0;
-}
+/* int main() { */
+/*   struct Stack *st; */
+/**/
+/*   create(st); */
+/**/
+/*   push(st, 1); */
+/*   push(st, 2); */
+/*   push(st, 3); */
+/*   push(st, 4); */
+/*   push(st, 5); */
+/**/
+/*   printf("deleted value: %d\n", pop(st)); */
+/**/
+/*   display(*st); */
+/**/
+/*   return 0; */
+/* } */
