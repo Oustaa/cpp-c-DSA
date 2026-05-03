@@ -17,20 +17,18 @@ public:
   }
 
   friend ostream &operator<<(std::ostream &out, const Node<T> &b) {
-    out << "Value of the node is: " << b->value;
+    out << "Value of the node is: " << b.value;
     return out;
   }
 };
 
 template <class T> class SearchTree {
 public:
-  Node<T> *head;
+  Node<T> *head = nullptr;
 
   int Search() { return 0; }
 
   void insert(T value) {
-    cout << "value: " << value << endl;
-
     Node<T> *temp = new Node<T>(value, NULL, NULL);
 
     if (head == nullptr) {
@@ -39,34 +37,79 @@ public:
     }
 
     Node<T> *headTemp = head;
+    Node<T> *parent = nullptr;
 
     while (headTemp != NULL) {
-      cout << headTemp << endl;
       if (headTemp->value == value) {
-        return;
+        break;
       }
 
-      if (headTemp) {
-        if (headTemp->value > value) {
-          headTemp = headTemp->lNode;
-        } else {
-          headTemp = headTemp->rNode;
-        }
+      parent = headTemp;
+      if (headTemp->value > value) {
+        headTemp = headTemp->lNode;
       } else {
+        headTemp = headTemp->rNode;
       }
+    }
+
+    if (parent->value > value) {
+      parent->lNode = new Node<T>(value, NULL, NULL);
+    } else {
+      parent->rNode = new Node<T>(value, NULL, NULL);
     }
   }
 
-  void display() {
-    stack<Node<T> *> stk;
-    stk.push(head);
+  template <typename F> void travers(Node<T> *node, F callback) {
+    if (node == nullptr)
+      return;
 
-    while (head != nullptr) {
-      Node<T> *temp = stk.top();
-      stk.pop();
-      stk.push(head->lNode);
-      stk.push(head->rNode);
+    travers(node->lNode, callback);
+    callback(node);
+    travers(node->rNode, callback);
+  }
+
+  void display() {
+    travers(head, [](Node<T> *node) { cout << node->value << " > "; });
+    cout << endl;
+  }
+
+  int getNodeNumber() { return 1; }
+
+  void displayWithLoop() {
+    if (head == nullptr) {
+      cout << "Tree is empty" << endl;
+      return;
     }
+
+    stack<Node<T> *> stk;
+    Node<T> *current = head;
+
+    while (!stk.empty() || current != nullptr) {
+      while (current) {
+        stk.push(current);
+        current = current->lNode;
+      }
+
+      current = stk.top();
+      stk.pop();
+
+      cout << current->value << " > ";
+
+      current = current->rNode;
+    }
+
+    cout << endl;
+  }
+
+  bool search(T value) {
+    bool result = false;
+
+    travers(head, [&result, value](Node<T> *node) {
+      if (result != true)
+        result = (node->value == value);
+    });
+
+    return result;
   }
 };
 
@@ -82,6 +125,12 @@ int main() {
   stree.insert(45);
 
   // stree.display();
+  // stree.displayWithLoop();
+
+  cout << "saerch for 8 before, " << stree.search(8) << endl;
+  stree.insert(8);
+  cout << "saerch for 8 after, " << stree.search(8) << endl;
+  stree.display();
 
   return 0;
 }
